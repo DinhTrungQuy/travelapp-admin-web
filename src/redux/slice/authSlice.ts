@@ -21,12 +21,18 @@ const authSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    signOut: (state) => {
+    loginSuccessNofycation: (state) => {
+      state.loading = true;
+    },
+    loginHasDone: (state) => {
       state.loading = false;
+    },
+    signOut: (state) => {
+      state.loading = true;
+      state.user = null;
     },
     signOutSuccess: (state) => {
       state.loading = false;
-      state.user = null;
     },
     signOutFailed: (state, action) => {
       state.loading = false;
@@ -39,6 +45,8 @@ export const {
   login,
   loginSuccess,
   loginFailed,
+  loginHasDone,
+  loginSuccessNofycation,
   signOut,
   signOutFailed,
   signOutSuccess,

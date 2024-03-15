@@ -31,30 +31,26 @@ const ProfileDropDown = (props: Props) => {
     }
 
     return (
-        <div className={`relative ${props.class}`}>
+        <div className={`relative ${props.class} pl-1`}>
             <div className="flex items-center space-x-4">
                 <button ref={profileRef} className="w-10 h-10 outline-none rounded-full ring-offset-2 ring-gray-200 ring-2 lg:focus:ring-indigo-600"
                     onClick={() => setState(!state)}
                 >
                     <img
-                        src="https://quydt.speak.vn/image/default-user.png"
+                        src="https://quydt.speak.vn/images/default-user.png"
                         className="w-full h-full rounded-full"
                     />
                 </button>
                 <div className="lg:hidden">
                     <span className="block">Admin</span>
-
                 </div>
             </div>
             <ul className={`bg-white top-12 right-0 mt-5 space-y-5 lg:absolute lg:border lg:rounded-md lg:text-sm lg:w-52 lg:shadow-md lg:space-y-0 lg:mt-0 ${state ? '' : 'lg:hidden'}`}>
-
                 <li>
                     <button className="block w-full text-left text-gray-600 lg:hover:bg-gray-50 lg:p-2.5" onClick={handleSignOut}>
                         Sign Out
                     </button>
                 </li>
-
-
             </ul>
         </div>
     )
@@ -63,16 +59,14 @@ const ProfileDropDown = (props: Props) => {
 export const Navbar = () => {
 
     const [menuState, setMenuState] = useState(false)
-
-    // Replace javascript:void(0) path with your path
     const navigation = [
-        { title: "Customers", path: "javascript:void(0)" },
-        { title: "Resources", path: "/resources" },
-        { title: "Guides", path: "javascript:void(0)" },
-        { title: "Partners", path: "javascript:void(0)" },
+        { title: "Customers", path: "/" },
+        { title: "Resource", path: "/resources" },
+        { title: "Guides", path: "/" },
+        { title: "Partners", path: "/" },
     ]
     return (
-        <nav className="bg-white border-b">
+        <nav className="bg-white border-b fixed w-screen z-20">
             <div className="flex items-center space-x-8 py-3 px-4 max-w-screen-xl mx-auto md:px-8">
                 <div className="flex-none lg:flex-initial">
                     <Link to="/">
@@ -82,7 +76,7 @@ export const Navbar = () => {
                 </div>
                 <div className="flex-1 flex items-center justify-between">
                     <div className={`bg-white absolute z-20 w-full top-16 left-0 p-4 border-b lg:static lg:block lg:border-none ${menuState ? '' : 'hidden'}`}>
-                        <ul className="mt-12 space-y-5 lg:flex lg:space-x-6 lg:space-y-0 lg:mt-0">
+                        <ul className="lg:hidden mt-12 space-y-5 lg:space-x-6 lg:space-y-0 lg:mt-0">
                             {
                                 navigation.map((item, idx) => (
                                     <li key={idx} className="text-gray-600 hover:text-gray-900">
@@ -99,7 +93,7 @@ export const Navbar = () => {
                         />
                     </div>
                     <div className="flex-1 flex items-center justify-end space-x-2 sm:space-x-6">
-                        <form className="flex items-center space-x-2 border rounded-md p-2">
+                        {/* <form className="flex items-center space-x-2 border rounded-md p-2">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 flex-none text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
@@ -108,7 +102,7 @@ export const Navbar = () => {
                                 type="text"
                                 placeholder="Search"
                             />
-                        </form>
+                        </form> */}
                         <ProfileDropDown
                             navigation={navigation}
                             class="hidden lg:block"

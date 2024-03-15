@@ -2,14 +2,13 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
-import { login, loginFailed, loginSuccess } from "../redux/slice/authSlice"
+import { login, loginSuccess, loginSuccessNofycation } from "../redux/slice/authSlice"
 // import { Response } from "../interface/interface"
 
 
 const LoginPage = () => {
   const [errMessage, setErrMessage] = useState('')
-  // const [responseData, setResponseData] = useState<Response | string>('')
-  const [status, setStatus] = useState()
+  const [status, setStatus] = useState(1)
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -21,23 +20,20 @@ const LoginPage = () => {
     }
     const username = target.username.value
     const password = target.password.value
-    await axios.post('https://quydt.speak.vn/api/auth/login', {
+    await axios.post('https://quydt.speak.vn/api/auth/adminlogin', {
       'username': username,
       'password': password,
     }, {
       withCredentials: true,
     }).then((response) => {
-      console.log(response)
-      // setResponseData(response.data)
-      setErrMessage(response.data.description);
-      setStatus(response.data.status)
-      dispatch(loginSuccess(response.data.data.access_token));
+      setStatus(0)
+      dispatch(loginSuccess(response.data));
+      dispatch(loginSuccessNofycation())
+      navigate('/')
     })
-      .catch(error => {
-        if (error.response) {
-          setErrMessage(error.response.data.message);
-          dispatch(loginFailed(error.response.data.message));
-        }
+      .catch((error) => {
+        console.log(error)
+        setErrMessage('Login failed, please try again')
       })
 
   }
