@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react"
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { signOut, signOutSuccess } from "../redux/slice/authSlice";
+import axios from "axios";
 
 
 interface Props {
@@ -25,7 +26,8 @@ const ProfileDropDown = (props: Props) => {
         }
         document.addEventListener('click', handleDropDown)
     }, [])
-    const handleSignOut = () => {
+    const handleSignOut = async () => {
+        await axios.post('https://quydt.speak.vn/api/auth/logout', {}, { withCredentials: true })
         dispatch(signOut())
         dispatch(signOutSuccess())
     }
@@ -60,10 +62,10 @@ export const Navbar = () => {
 
     const [menuState, setMenuState] = useState(false)
     const navigation = [
-        { title: "Customers", path: "/" },
-        { title: "Resource", path: "/resources" },
-        { title: "Guides", path: "/" },
-        { title: "Partners", path: "/" },
+        { title: "Home", path: "/" },
+        { title: "Places", path: "/places" },
+        { title: "Users", path: "/users" },
+        { title: "Bookings", path: "/bookings" },
     ]
     return (
         <nav className="bg-white border-b fixed w-screen z-20">
@@ -75,7 +77,7 @@ export const Navbar = () => {
                     </Link>
                 </div>
                 <div className="flex-1 flex items-center justify-between">
-                    <div className={`bg-white absolute z-20 w-full top-16 left-0 p-4 border-b lg:static lg:block lg:border-none ${menuState ? '' : 'hidden'}`}>
+                    <div className={`bg-white absolute z-20 w-full top-14 left-0 p-4 border-b lg:static lg:block lg:border-none ${menuState ? '' : 'hidden'}`}>
                         <ul className="lg:hidden mt-12 space-y-5 lg:space-x-6 lg:space-y-0 lg:mt-0">
                             {
                                 navigation.map((item, idx) => (

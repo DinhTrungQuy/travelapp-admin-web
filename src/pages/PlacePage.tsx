@@ -4,6 +4,7 @@ import axios from "axios"
 import { Place } from "../interface/interface.ts"
 import { Link } from "react-router-dom"
 import Sidebar from "../component/Sidebar.tsx"
+import DeleteModal from "../component/DeleteModal.tsx"
 
 const PlacePage = () => {
     const [tableItems, setTableItems] = useState([])
@@ -39,7 +40,7 @@ const PlacePage = () => {
                                 </h3>
                             </div>
                             <div className="mt-3 md:mt-0">
-                                <Link to={"/resources/add"}
+                                <Link to={"/places/add"}
                                     className="inline-block px-4 py-2 text-white duration-150 font-medium bg-indigo-600 rounded-lg hover:bg-indigo-500 active:bg-indigo-700 md:text-sm"
                                 >
                                     Add place
@@ -60,24 +61,23 @@ const PlacePage = () => {
                                 <tbody className="text-gray-600 divide-y">
                                     {
                                         tableItems.map((item: Place, idx) => (
-                                            <tr key={idx}>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.name}</td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.description}</td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.location}</td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.price}</td>
-                                                <td className="text-right px-6 whitespace-nowrap">
-                                                    <Link
-                                                        className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        to={`/resources/edit?id=${item.id}`}>
-                                                        Edit
-                                                    </Link>
-                                                    <button className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        onClick={() => handleDelete(item.id)}
-                                                    >
-                                                        Delete
-                                                    </button>
-                                                </td>
-                                            </tr>
+                                            <>
+                                                <tr key={idx}>
+                                                    <td className="px-6 py-4 whitespace-break-spaces">{item.name}</td>
+                                                    <td className="px-6 py-4 whitespace-break-spaces">{item.description}</td>
+                                                    <td className="px-6 py-4 whitespace-break-spaces">{item.location}</td>
+                                                    <td className="px-6 py-4 whitespace-break-spaces">{item.price}</td>
+                                                    <td className="text-right px-6 whitespace-nowrap flex justify-center items-center flex-col">
+                                                        <Link
+                                                            className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
+                                                            to={`/places/edit/${item.id}`}>
+                                                            Edit
+                                                        </Link>
+                                                        <DeleteModal handleFunction={() => handleDelete(item.id)} />
+                                                    </td>
+                                                </tr>
+
+                                            </>
                                         ))
                                     }
                                 </tbody>

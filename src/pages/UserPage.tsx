@@ -4,6 +4,7 @@ import axios from "axios"
 import { Place, User } from "../interface/interface.ts"
 import { Link } from "react-router-dom"
 import Sidebar from "../component/Sidebar.tsx"
+import DeleteModal from "../component/DeleteModal.tsx"
 
 const UserPage = () => {
     const [tableItems, setTableItems] = useState([])
@@ -16,7 +17,7 @@ const UserPage = () => {
             })
     }, [])
     const handleDelete = (id: string) => {
-        axios.delete(`https://quydt.speak.vn/api/auth/${id}`, {
+        axios.delete(`https://quydt.speak.vn/api/user/${id}`, {
             withCredentials: true
         })
             .then(response => {
@@ -50,7 +51,7 @@ const UserPage = () => {
                             <table className="w-full table-auto text-sm text-left ">
                                 <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                                     <tr>
-                                        <th className="py-3 px-6">Name</th>
+                                        <th className="py-3 px-6">Username</th>
                                         <th className="py-3 px-6">Fullname</th>
                                         <th className="py-3 px-6">Phone</th>
                                         <th className="py-3 px-6">Email</th>
@@ -60,25 +61,23 @@ const UserPage = () => {
                                 <tbody className="text-gray-600 divide-y">
                                     {
                                         tableItems.map((item: User, idx) => (
-                                            <tr key={idx}>
-                                                <td className="flex items-center  gap-2 px-6 py-4 whitespace-break-spaces">
-                                                    <img src={item.imageUrl ? item.imageUrl : 'https://quydt.speak.vn/images/default-user.png'} alt="" className="rounded-full w-10 h-10" />
-                                                    {item.username}
+                                            <tr key={idx} >
+                                                <td className="gap-2 px-6 py-4 whitespace-break-spaces align-middle">
+                                                    <div className="flex items-center">
+                                                        <img src={item.imageUrl ? item.imageUrl : 'https://quydt.speak.vn/images/default-user.png'} alt="" className="rounded-full w-10 h-10 mx-2" />
+                                                        <p className="text-center">{item.username}</p>
+                                                    </div>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.fullname}</td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.phone}</td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.email}</td>
-                                                <td className="text-right px-6 whitespace-nowrap">
+                                                <td className="px-6 py-4 whitespace-break-spaces align-middle">{item.fullname}</td>
+                                                <td className="px-6 py-4 whitespace-break-spaces align-middle">{item.phone}</td>
+                                                <td className="px-6 py-4 whitespace-break-spaces align-middle">{item.email}</td>
+                                                <td className="text-right px-6 whitespace-nowrap flex justify-center items-center flex-col align-middle">
                                                     <Link
                                                         className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        to={`/resources/edit?id=${item.id}`}>
+                                                        to={`/users/edit/${item.id}`}>
                                                         Edit
                                                     </Link>
-                                                    <button className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        onClick={() => handleDelete(item.id)}
-                                                    >
-                                                        Delete
-                                                    </button>
+                                                    <DeleteModal handleFunction={() => handleDelete(item.id)} />
                                                 </td>
                                             </tr>
                                         ))

@@ -2,9 +2,10 @@ import { useEffect, useState } from "react"
 import { Navbar } from "../component/Navbar.tsx"
 import axios, { AxiosResponse } from "axios"
 import { Booking, Place, User } from "../interface/interface.ts"
-import { Link } from "react-router-dom"
 import Sidebar from "../component/Sidebar.tsx"
 import StatusInfo from "../component/StatusInfo.tsx"
+import DeleteModal from "../component/DeleteModal.tsx"
+import StatusButton from "../component/StatusButton.tsx"
 
 const BookingPage = () => {
     const [user, setUser] = useState<User[]>([])
@@ -23,7 +24,7 @@ const BookingPage = () => {
     }, [])
 
     const handleDelete = (id: string) => {
-        axios.delete(`https://quydt.speak.vn/api/auth/${id}`, {
+        axios.delete(`https://quydt.speak.vn/api/booking/${id}`, {
             withCredentials: true
         })
             .then(response => {
@@ -58,13 +59,13 @@ const BookingPage = () => {
                             <table className="w-full table-auto text-sm text-left ">
                                 <thead className="bg-gray-50 text-gray-600 font-medium border-b">
                                     <tr>
-                                        <th className="py-3 px-6">User Name</th>
-                                        <th className="py-3 px-6">Quantity</th>
-                                        <th className="py-3 px-6">Total Price</th>
-                                        <th className="py-3 px-6">Status</th>
-                                        <th className="py-3 px-6">Check In</th>
-                                        <th className="py-3 px-6">Check Out</th>
-                                        <th className="py-3 px-6"></th>
+                                        <th className="py-3 px-6 text-center">User Name</th>
+                                        <th className="py-3 px-6 text-center">Quantity</th>
+                                        <th className="py-3 px-6 text-center">Total Price</th>
+                                        <th className="py-3 px-6 text-center">Status</th>
+                                        <th className="py-3 px-6 text-center">Check In</th>
+                                        <th className="py-3 px-6 text-center">Check Out</th>
+                                        <th className="py-3 px-6 text-center">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="text-gray-600 divide-y">
@@ -72,30 +73,31 @@ const BookingPage = () => {
                                         tableItems.map((item: Booking, idx) => {
                                             const currentUser = user[idx];
                                             return currentUser ? (<tr key={idx}>
-                                                <td className="flex items-center  gap-2 px-6 py-4 whitespace-break-spaces">
+                                                <td className="flex items-center  gap-2 px-6 py-4 whitespace-break-spaces text-center">
                                                     <img src={currentUser.imageUrl ? currentUser.imageUrl : 'https://quydt.speak.vn/images/default-user.png'} alt=""
-                                                        className="w-10 h-10"
+                                                        className="w-10 h-10 rounded-full"
                                                     />
                                                     {currentUser.username}
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.quantity}</td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.totalPrice}</td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">
+                                                <td className="px-6 py-4 whitespace-break-spaces text-center">{item.quantity}</td>
+                                                <td className="px-6 py-4 whitespace-break-spaces text-center">{item.totalPrice}</td>
+                                                <td className="px-6 py-4 whitespace-break-spaces text-center">
                                                     <StatusInfo status={item.status} />
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.checkInTime}</td>
-                                                <td className="px-6 py-4 whitespace-break-spaces">{item.checkOutTime}</td>
+                                                <td className="px-6 py-4 whitespace-break-spaces text-center">{item.checkInTime.substring(0, 10)}</td>
+                                                <td className="px-6 py-4 whitespace-break-spaces text-center">{item.checkOutTime.substring(0, 10)}</td>
                                                 <td className="text-right px-6 whitespace-nowrap">
-                                                    <Link
+                                                    {/* <Link
                                                         className="py-2 px-3 font-medium text-indigo-600 hover:text-indigo-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        to={`/resources/edit?id=${item.id}`}>
+                                                        to={`/bookings/edit/${item.id}`}>
                                                         Edit
-                                                    </Link>
-                                                    <button className="py-2 leading-none px-3 font-medium text-red-600 hover:text-red-500 duration-150 hover:bg-gray-50 rounded-lg"
-                                                        onClick={() => handleDelete(item.id)}
-                                                    >
-                                                        Delete
-                                                    </button>
+                                                    </Link> */}
+                                                    <div className="flex justify-center items-center flex-col">
+                                                        <StatusButton status={item.status} bookingId={item.id} />
+                                                        <DeleteModal handleFunction={() => handleDelete(item.id)} />
+
+                                                    </div>
+
                                                 </td>
                                             </tr>) : null
                                         }

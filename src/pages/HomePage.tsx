@@ -7,9 +7,8 @@ import { RootState } from "../redux/configureStore"
 import { useDispatch } from "react-redux"
 import { loginHasDone } from "../redux/slice/authSlice"
 import Sidebar from "../component/Sidebar"
-import InfoTile from "../component/InfoTile"
 import axios from "axios"
-import { Dashboard } from "../interface/interface"
+import { Dashboard, User } from "../interface/interface"
 
 
 
@@ -38,6 +37,15 @@ const HomePage = () => {
             setResonse(res.data)
         })
     }, [])
+    const [tableItems, setTableItems] = useState([])
+    useEffect(() => {
+        axios.get("https://quydt.speak.vn/api/Auth", {
+            withCredentials: true
+        })
+            .then(response => {
+                setTableItems(response.data);
+            })
+    }, [])
 
 
     return (
@@ -47,14 +55,14 @@ const HomePage = () => {
                 <Sidebar />
                 <div className="flex flex-col w-full md:space-y-4">
                     <div className="h-screen px-4 pb-24 overflow-auto md:px-6">
-                        <h1 className="text-4xl font-semibold text-gray-800 dark:text-white">
+                        <h1 className="text-4xl font-semibold text-gray-800 dark:text-white pt-20">
                             Hi, Admin
                         </h1>
                         <h2 className="text-gray-400 text-md">
                             Here's what's happening with your ambassador account today.
                         </h2>
                         <div className="flex flex-col items-center w-full my-6 space-y-4 md:space-x-4 md:space-y-0 md:flex-row">
-                            <div className="w-full md:w-6/12">
+                            {/* <div className="w-full md:w-6/12">
                                 <div className="relative w-full overflow-hidden bg-white shadow-lg dark:bg-gray-700">
                                     <a href="#" className="block w-full h-full">
                                         <div className="flex items-center justify-between px-4 py-6 space-x-4">
@@ -85,10 +93,10 @@ const HomePage = () => {
                                         </div>
                                     </a>
                                 </div>
-                            </div>
-                            <div className="flex items-center w-full space-x-4 md:w-1/2">
+                            </div> */}
+                            <div className="flex items-center w-full space-x-4 md:w-full">
                                 <div className="w-1/2">
-                                    <div className="relative w-full px-4 py-6 bg-white shadow-lg dark:bg-gray-700">
+                                    <div className="relative w-full px-4 py-6 bg-white shadow-lg">
                                         <p className="text-2xl font-bold text-black dark:text-white">
                                             {response?.totalPlaces}
                                         </p>
@@ -96,7 +104,15 @@ const HomePage = () => {
                                     </div>
                                 </div>
                                 <div className="w-1/2">
-                                    <div className="relative w-full px-4 py-6 bg-white shadow-lg dark:bg-gray-700">
+                                    <div className="relative w-full px-4 py-6 bg-white shadow-lg ">
+                                        <p className="text-2xl font-bold text-black dark:text-white">
+                                            {response?.totalUsers}
+                                        </p>
+                                        <p className="text-sm text-gray-400">Total Users</p>
+                                    </div>
+                                </div>
+                                <div className="w-1/2">
+                                    <div className="relative w-full px-4 py-6 bg-white shadow-lg ">
                                         <p className="text-2xl font-bold text-black dark:text-white">
                                             {`$ ${response?.profit}`}
                                         </p>
@@ -117,15 +133,47 @@ const HomePage = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2 lg:grid-cols-3">
+                        <h2 className="text-xl font-semibold text-gray-800 dark:text-white">
+                            Overview
+                        </h2>
+
+                        <div className="grid grid-cols-1 gap-4 my-4 md:grid-cols-2 lg:grid-cols-3 space-x-4">
+                            {/* <InfoTile />
                             <InfoTile />
-                            <InfoTile />
-                            <InfoTile />
-                            <InfoTile />
-                            <InfoTile />
-                            <InfoTile />
-                            <InfoTile />
-                            <InfoTile />
+                            <InfoTile /> */}
+                        </div>
+
+
+                        <div className="space-x-4">
+                            <h3 className="mb-4">New Users</h3>
+                            <table className="w-full table-auto text-sm text-left border shadow-lg ">
+                                <thead className="bg-gray-50 text-gray-600 font-medium border-b">
+                                    <tr>
+                                        <th className="py-3 px-6">Name</th>
+                                        <th className="py-3 px-6">Fullname</th>
+                                        <th className="py-3 px-6">Phone</th>
+                                        <th className="py-3 px-6">Email</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="text-gray-600 divide-y bg-white">
+                                    {
+                                        tableItems.reverse().map((item: User, idx) => {
+                                            // if (idx < 3)
+                                                return (
+                                                    <tr key={idx}>
+                                                        <td className="flex items-center gap-2 px-6 py-4 whitespace-break-spaces">
+                                                            <img src={item.imageUrl ? item.imageUrl : 'https://quydt.speak.vn/images/default-user.png'} alt="" className="rounded-full w-10 h-10" />
+                                                            {item.username}
+                                                        </td>
+                                                        <td className="px-6 py-4 whitespace-break-spaces">{item.fullname}</td>
+                                                        <td className="px-6 py-4 whitespace-break-spaces">{item.phone}</td>
+                                                        <td className="px-6 py-4 whitespace-break-spaces">{item.email}</td>
+                                                    </tr>
+                                                )
+                                        })
+                                    }
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>

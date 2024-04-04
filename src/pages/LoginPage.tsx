@@ -3,7 +3,8 @@ import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { login, loginSuccess, loginSuccessNofycation } from "../redux/slice/authSlice"
-// import { Response } from "../interface/interface"
+import { useSelector } from "react-redux"
+import { RootState } from "../redux/configureStore"
 
 
 const LoginPage = () => {
@@ -11,6 +12,14 @@ const LoginPage = () => {
   const [status, setStatus] = useState(1)
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const user = useSelector((state: RootState) => state.auth.user)
+
+  useEffect(() => {
+    if (user) {
+      navigate('/')
+    }
+  }, [navigate, user])
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     dispatch(login());
     e.preventDefault()

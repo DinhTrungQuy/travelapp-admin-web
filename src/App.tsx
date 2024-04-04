@@ -4,14 +4,16 @@ import LoginPage from './pages/LoginPage';
 import HomePage from './pages/HomePage';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './redux/configureStore';
-import AddPage from './pages/AddPage';
-import EditPage from './pages/EditPage';
 import { useEffect } from 'react';
 import axios from 'axios';
 import { signOut, signOutSuccess } from './redux/slice/authSlice';
 import PlacePage from './pages/PlacePage';
 import UserPage from './pages/UserPage';
 import BookingPage from './pages/BookingPage';
+import AddPlacePage from './pages/AddPlacePage';
+import EditPlacePage from './pages/EditPlacePage';
+import EditUserPage from './pages/EditUserPage';
+import EditBookingPage from './pages/EditBookingPage';
 
 
 interface Prop {
@@ -24,7 +26,6 @@ function App() {
   const PrivateRoute: React.FC<Prop> = ({ children }) => {
     const isAuthenticated = useSelector((state: RootState) => state.auth.user);
     if (isAuthenticated) {
-
       return children;
     }
     return <Navigate to="/login" />
@@ -38,7 +39,7 @@ function App() {
       dispatch(signOutSuccess());
       console.log("expired")
     })
-    
+
   }, [dispatch]);
 
   // const auth = useSelector((state) => state.auth);
@@ -72,15 +73,27 @@ function App() {
         </PrivateRoute>
       }
       />
-      <Route path="/resources/add" element={
+      <Route path="/places/add" element={
         <PrivateRoute>
-          <AddPage />
+          <AddPlacePage />
         </PrivateRoute>
       }
       />
-      <Route path="/resources/edit" element={
+      <Route path="/places/edit/:id" element={
         <PrivateRoute>
-          <EditPage />
+          <EditPlacePage />
+        </PrivateRoute>
+      }
+      />
+      <Route path="/users/edit/:id" element={
+        <PrivateRoute>
+          <EditUserPage />
+        </PrivateRoute>
+      }
+      />
+      <Route path="/bookings/edit/:id" element={
+        <PrivateRoute>
+          <EditBookingPage />
         </PrivateRoute>
       }
       />

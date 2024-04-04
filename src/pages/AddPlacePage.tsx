@@ -3,7 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
-const AddPage = () => {
+const AddPlacePage = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState<File>();
@@ -24,7 +24,7 @@ const AddPage = () => {
     formData.append("name", name);
     formData.append("description", description);
     formData.append("location", location);
-    formData.append("price", price.replace(/[^0-9.]/g, ''));
+    formData.append("price", price);
     formData.append("image", image);
     formData.append("popular", popular ? "true" : "false");
     formData.append("recommended", recommended ? "true" : "false");
@@ -41,15 +41,11 @@ const AddPage = () => {
       })
       .then((response) => {
         console.log(response)
-        nav("/resources");
+        nav("/places");
       })
       .catch((err) => console.log(err));
   };
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value.replace(/[^0-9.]/g, '');
-    value = value.replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
-    value = value.replace(/\./g, '');
-    e.target.value = value;
     setPrice(e.target.value)
   }
 
@@ -61,7 +57,7 @@ const AddPage = () => {
             Create Place
           </p>
           <p className="text-gray-300">
-            We’d love to hear from you! Please fill out the form bellow.
+            Create a new place to share with everyone
           </p>
         </div>
         <div className="mt-8 mx-auto px-4 p-8 bg-white sm:max-w-lg sm:px-8 sm:rounded-xl">
@@ -175,4 +171,4 @@ const AddPage = () => {
     </main>
   );
 };
-export default AddPage;
+export default AddPlacePage;

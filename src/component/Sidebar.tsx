@@ -11,7 +11,7 @@ const Sidebar = () => {
                 <nav className="mt-6">
                     <div>
                         <Link
-                            className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-800 transition-colors duration-200 border-l-4 border-purple-500 dark:text-white"
+                            className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-800 transition-colors duration-200 "
                             to={"/"}
                         >
                             <span className="text-left">
@@ -19,9 +19,8 @@ const Sidebar = () => {
                             </span>
                             <span className="mx-2 text-sm font-normal">Home</span>
                         </Link>
-
                         <Link
-                            className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
+                            className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-800 transition-colors duration-200"
                             to={"/places"}
                         >
                             <span className="text-left">
@@ -30,7 +29,7 @@ const Sidebar = () => {
                             <span className="mx-4 text-sm font-normal">Places</span>
                         </Link>
                         <Link
-                            className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
+                            className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-800 transition-colors duration-200"
                             to={"/users"}
                         >
                             <span className="text-left">
@@ -39,7 +38,7 @@ const Sidebar = () => {
                             <span className="mx-4 text-sm font-normal">Users</span>
                         </Link>
                         <Link
-                            className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-400 transition-colors duration-200 border-l-4 border-transparent hover:text-gray-800"
+                            className="flex items-center justify-start w-full p-2 pl-6 my-2 text-gray-800 transition-colors duration-200"
                             to={"/bookings"}
                         >
                             <span className="text-left">
